@@ -20,6 +20,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         serializer = UserSerializerWithToken(self.user).data
         for key, value in serializer.items():
             data[key] = value
+            print('key:', key)
+            print('value:', value)
 
         return data
 
@@ -33,6 +35,25 @@ class MyTokenObtainPairView(TokenObtainPairView):
 def get_user_profile(request):
     user = request.user
     serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def update_user_profile(request):
+    user = request.user
+    serializer = UserSerializerWithToken(user, many=False)
+
+    credentials = request.data
+    user.first_name = credentials['name']
+    user.username = credentials['email']
+    user.email = credentials['email']
+
+    if credentials['password'] != '':
+        user.password = make_password(credentials['password'])
+
+    user.save()
+
     return Response(serializer.data)
 
 
@@ -53,7 +74,7 @@ def register(request):
             username=credentials['email'],
             email=credentials['email'],
             first_name=credentials['name'],
-                        password=make_password(credentials['password'])
+            password=make_password(credentials['password'])
         )
 
         serializer = UserSerializerWithToken(user, many=False)

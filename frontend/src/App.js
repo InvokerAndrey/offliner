@@ -10,6 +10,7 @@ import CategoryScreen from './screens/CategoryScreen'
 import CatalogScreen from './screens/CatalogScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" component={HomeScreen} exact />
             <Route path="/login" component={LoginScreen} />
             <Route path="/register" component={RegisterScreen} />
+            <Route path="/profile" component={ProfileScreen} />
             <Route path="/product/:id" component={ProductScreen} />
             <Route path="/cart/:id?" component={CartScreen} />  {/* ? means id is not nessesary */}
             <Route path="/catalog/category" component={CategoryScreen} />

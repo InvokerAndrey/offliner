@@ -13,7 +13,7 @@ function LoginScreen({ location, history }) {
     
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
+    
     const dispatch = useDispatch()
 
     const redirect = location.search ? location.search.split('=')[1] : '/'
