@@ -5,31 +5,31 @@ import { Link } from 'react-router-dom'
 import Rating from './Rating'
 
 
-function Product({ product }) {
+function phone({ phone }) {
     return (
         <Card className="my-3 p-3 rounded">
-            <Link to={`/product/${product.id}`}>
-                <Card.Img src={product.image}/>
+            <Link to={`/phone/${phone.id}`}>
+                <Card.Img src={phone.image}/>
             </Link>
             <Card.Body>
-                <Link to={`/product/${product.id}`}>
+                <Link to={`/phone/${phone.id}`}>
                     <Card.Title as="div">
-                        <strong>{product.name}</strong>
+                        <strong>{phone.name}</strong>
                     </Card.Title>
                 </Link>
 
                 <Card.Text as="div">
                     <div className="my-3">
-                        <Rating value={product.rating} reviews={product.numReviews} color={'#fc0303'} />
+                        <Rating value={phone.rating} reviews={phone.numReviews} color={'#fc0303'} />
                     </div>
                 </Card.Text>
 
                 <Card.Text as="h3">
-                    ${product.price}
+                    ${phone.price}
                 </Card.Text>
             </Card.Body>
         </Card>
     )
 }
 
-export default Product
+export default phone

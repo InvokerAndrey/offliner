@@ -4,10 +4,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import HomeScreen from './screens/HomeScreen'
-import ProductScreen from './screens/ProductScreen'
+import PhoneScreen from './screens/PhoneScreen'
+import PhonesScreen from './screens/PhonesScreen'
 import CartScreen from './screens/CartScreen'
-import CategoryScreen from './screens/CategoryScreen'
-import CatalogScreen from './screens/CatalogScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
@@ -23,10 +22,9 @@ function App() {
             <Route path="/login" component={LoginScreen} />
             <Route path="/register" component={RegisterScreen} />
             <Route path="/profile" component={ProfileScreen} />
-            <Route path="/product/:id" component={ProductScreen} />
+            <Route path="/phones" component={PhonesScreen} />
+            <Route path="/phone/:id" component={PhoneScreen} />
             <Route path="/cart/:id?" component={CartScreen} />  {/* ? means id is not nessesary */}
-            <Route path="/catalog/category" component={CategoryScreen} />
-            <Route path="/catalog/category/:id" component={CatalogScreen} />
           </Container>
         </main>
       <Footer />

@@ -12,7 +12,7 @@ function Footer() {
                         <Nav.Link eventKey="/">Link</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="/">Link</Nav.Link>
+                        <Nav.Link href="https://github.com/InvokerAndrey/offliner">GitHub Repo</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="disabled" disabled>
@@ -20,7 +20,7 @@ function Footer() {
                         </Nav.Link>
                     </Nav.Item>
                 </Nav>
-                <p className="text-center mt-4 mb-4">&copy; 2021 - Offliner</p>
+                <p className="text-center mt-4 mb-4">&copy; Phones - чтобы звонить</p>
         </footer>
     )
 }

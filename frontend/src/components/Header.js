@@ -29,8 +29,8 @@ function Header() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
 
-                            <LinkContainer to="/catalog/category">
-                                <Nav.Link >Catalog</Nav.Link>
+                            <LinkContainer to="/phones">
+                                <Nav.Link >Phones</Nav.Link>
                             </LinkContainer>
 
                             <LinkContainer to="/news">

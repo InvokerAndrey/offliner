@@ -2,46 +2,39 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Product(models.Model):
+class Phone(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
-    brand = models.CharField(max_length=255, null=True, blank=True)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     rating = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     numReviews = models.IntegerField(default=0, null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
     countInStock = models.IntegerField(null=True, blank=True, default=0)
-    cratedAt = models.DateField(auto_now_add=True)
+    createdAt = models.DateField(auto_now_add=True)
+
+    # attrs
+    brand = models.CharField(max_length=255, null=True, blank=True)
+    year = models.IntegerField(null=True, blank=True, default=0)
+    operatingSystem = models.CharField(max_length=255, null=True, blank=True)
+    screenSize = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+    screenResolution = models.CharField(max_length=255, null=True, blank=True)
+    screenTechnology = models.CharField(max_length=255, null=True, blank=True)
+    platform = models.CharField(max_length=255, null=True, blank=True)
+    RAM = models.IntegerField(null=True, blank=True, default=0)
+    flashMemory = models.IntegerField(null=True, blank=True, default=0)
+    camera = models.IntegerField(null=True, blank=True, default=0)
+    cameraAmount = models.IntegerField(null=True, blank=True, default=0)
+    battery = models.IntegerField(null=True, blank=True, default=0)
 
     def __str__(self):
-        return f'Product: {self.name}'
-
-
-class Attribute(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, null=True, blank=True)
-    name = models.CharField(max_length=255, null=True, blank=True)
-    stringValue = models.CharField(max_length=255, null=True, blank=True)
-    decimalValue = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.product.name}: {self.name}'
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=255, null=True, blank=True)
-
-    def __str__(self):
-        return f'{self.name}'
-
-    class Meta:
-        verbose_name_plural = 'Categories'
+        return f'Phone: {self.name}'
 
 
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
+    phone = models.ForeignKey(Phone, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     rating = models.IntegerField(default=0, null=True, blank=True)
     comment = models.TextField(null=True, blank=True)
@@ -67,8 +60,8 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True)
-    order = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True)
+    phone = models.ForeignKey(Phone, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=255, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, null=True, blank=True)
@@ -82,7 +75,7 @@ class OrderItem(models.Model):
 
 
 class ShippingAddress(models.Model):
-    order = models.OneToOneField('Order', on_delete=models.CASCADE, null=True, blank=True)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     country = models.CharField(max_length=255, null=True, blank=True)
     city = models.CharField(max_length=255, null=True, blank=True)

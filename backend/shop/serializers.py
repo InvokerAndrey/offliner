@@ -32,19 +32,7 @@ class UserSerializerWithToken(UserSerializer):
         fields = ['id', 'username', 'email', 'isAdmin', 'name', 'token']
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class PhoneSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = '__all__'
-
-
-class AttributeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Attribute
-        fields = '__all__'
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
+        model = Phone
         fields = '__all__'

@@ -9,7 +9,7 @@ import { addToCart, removeFromCart } from '../actions/cartActions'
 
 function CartScreen({ match, location, history }) {
 
-    const productId = match.params.id
+    const phoneId = match.params.id
 
     const quantity = location.search ? Number(location.search.split('=')[1]) : 1
 
@@ -19,10 +19,10 @@ function CartScreen({ match, location, history }) {
     const { cartItems } = cart
 
     useEffect(() => {
-        if (productId) {
-            dispatch(addToCart(productId, quantity))
+        if (phoneId) {
+            dispatch(addToCart(phoneId, quantity))
         }
-    }, [dispatch, productId, quantity])
+    }, [dispatch, phoneId, quantity])
 
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
@@ -43,15 +43,15 @@ function CartScreen({ match, location, history }) {
                 ) : (
                     <ListGroup variant="flush">
                         {cartItems.map(item => (
-                            <ListGroup.Item key={item.product}>
+                            <ListGroup.Item key={item.phone}>
                                 <Row>
                                     <Col md={2}>
-                                        <Link to={`/products/${item.product}`}>
+                                        <Link to={`/phones/${item.phone}`}>
                                             <Image src={item.image} alt={item.name} fluid rounded/>
                                         </Link>
                                     </Col>
                                     <Col md={4}>
-                                        <Link to={`/products/${item.product}`}>{item.name}</Link>
+                                        <Link to={`/phones/${item.phone}`}>{item.name}</Link>
                                     </Col>
                                     <Col md={2}>
                                         ${item.price}
@@ -60,7 +60,7 @@ function CartScreen({ match, location, history }) {
                                         <Form.Control
                                             as="select"
                                             value={item.quantity}
-                                            onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
+                                            onChange={(e) => dispatch(addToCart(item.phone, Number(e.target.value)))}
                                         >
                                             {
                                                 [...Array(item.countInStock).keys()].map((x) => (
@@ -75,7 +75,7 @@ function CartScreen({ match, location, history }) {
                                         <Button
                                             type='button'
                                             variant='light'
-                                            onClick={() => removeFromCartHandler(item.product)}
+                                            onClick={() => removeFromCartHandler(item.phone)}
                                         >
                                             <i className='fas fa-trash' style={{color: 'red'}}></i>
                                         </Button>
