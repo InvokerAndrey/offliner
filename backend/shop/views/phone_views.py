@@ -43,7 +43,46 @@ def get_filter_values(request):
         filter_values['cameraAmount'].append(phone.cameraAmount)
         filter_values['battery'].append(phone.battery)
 
-    for v in filter_values.values():
-        v = list(set(v))
+    for k, v in filter_values.items():
+        filter_values[k] = [''] + sorted(list(set(v)))
 
     return Response(filter_values)
+
+
+@api_view(['PUT'])
+def get_filtered_phones(request):
+    filter_params = dict(request.data)
+
+    print('minPrice:', filter_params['minPrice'])
+    print('maxPrice:', filter_params['maxPrice'])
+
+    try:
+        minPrice = float(filter_params['minPrice'])
+    except:
+        minPrice = None
+
+    try:
+        maxPrice = float(filter_params['maxPrice'])
+    except:
+        maxPrice = None
+
+    del filter_params['minPrice']
+    del filter_params['maxPrice']
+    
+    remove = [key for key in filter_params if filter_params[key] == '']
+    for key in remove:
+        del filter_params[key]
+
+    if minPrice and maxPrice:
+        filtered_phones = Phone.objects.filter(price__range=[minPrice, maxPrice], **filter_params)
+    elif minPrice:
+        filtered_phones = Phone.objects.filter(price__gte=minPrice, **filter_params)
+    elif maxPrice:
+        filtered_phones = Phone.objects.filter(price__lte=maxPrice, **filter_params)
+    else:
+        filtered_phones = Phone.objects.filter(**filter_params)
+    
+    print('Filtered Phones:', filtered_phones)
+
+    serializer = PhoneSerializer(filtered_phones, many=True)
+    return Response(serializer.data)

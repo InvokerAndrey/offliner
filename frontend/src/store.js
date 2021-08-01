@@ -6,7 +6,9 @@ import { cartReducer } from './reducers/cartReducers'
 
 import { 
     phoneListReducer,
-    phoneDetailsReducer, 
+    phoneDetailsReducer,
+    phoneFilterValuesReducer,
+    phoneFilterListReducer,
 } from './reducers/phoneReducers'
 
 import {
@@ -20,6 +22,8 @@ import {
 const reducer = combineReducers({
     phoneList: phoneListReducer,
     phoneDetails: phoneDetailsReducer,
+    phoneFilterValues: phoneFilterValuesReducer,
+    phoneFilterList: phoneFilterListReducer,
 
     cart: cartReducer,
 
