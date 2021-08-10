@@ -38,7 +38,7 @@ function ProfileScreen({ history }) {
         if (!userInfo) {
             history.push('/login')
         } else {
-            if (!user || !user.name || success) {
+            if (!user || !user.name || success || userInfo.id !== user.id) {
                 dispatch({type: USER_UPDATE_PROFILE_RESET})
                 dispatch(getUserDetails('profile'))
                 dispatch(listMyOrders())
@@ -133,7 +133,7 @@ function ProfileScreen({ history }) {
                 ) : errorOrders ? (
                     <Message variant='danger'>{errorOrders}</Message>
                 ) : (
-                    <Table striped responsive className='table-sm'>
+                    <Table hover responsive className='table-sm'>
                         <thead>
                             <tr>
                                 <th>ID</th>

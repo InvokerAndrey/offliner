@@ -60,13 +60,27 @@ function Header() {
                                 </LinkContainer>
                             )}
 
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="/">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="/">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="/">Separated link</NavDropdown.Item>
-                            </NavDropdown>
+                            {userInfo && userInfo.isAdmin && (
+                                <NavDropdown title='AdminPanel' id='adminmenu'>
+                                    <LinkContainer to='/admin/userlist'>
+                                        <NavDropdown.Item>
+                                            Users
+                                        </NavDropdown.Item>
+                                    </LinkContainer>
+
+                                    <LinkContainer to='/admin/phonelist'>
+                                        <NavDropdown.Item>
+                                            Phones
+                                        </NavDropdown.Item>
+                                    </LinkContainer>
+
+                                    <LinkContainer to='/admin/orderlist'>
+                                        <NavDropdown.Item>
+                                            Orders
+                                        </NavDropdown.Item>
+                                    </LinkContainer>
+                                </NavDropdown>
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
