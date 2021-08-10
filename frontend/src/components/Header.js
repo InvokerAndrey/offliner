@@ -68,10 +68,6 @@ function Header() {
                                 <NavDropdown.Item href="/">Separated link</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        <Form inline>
-                            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                            <Button variant="outline-success"><i className="fa fa-search"></i></Button>
-                        </Form>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

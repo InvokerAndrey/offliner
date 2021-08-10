@@ -54,7 +54,18 @@ function Filter() {
                     : (
                         <div>
                             <h2>Filter</h2>
-                            <ListGroup>
+                            <ListGroup className='my-4'>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Button
+                                            onClick={searchByFilterHandler}
+                                            className="btn-block"
+                                            type="button"
+                                        >
+                                            Search
+                                        </Button>
+                                    </Row>
+                                </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
                                         <Col>Min Price:</Col>
@@ -370,13 +381,15 @@ function Filter() {
                                     </Row>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
-                                    <Button
-                                        onClick={searchByFilterHandler}
-                                        className="btn-block"
-                                        type="button"
-                                    >
-                                        Search
-                                    </Button>
+                                    <Row>
+                                        <Button
+                                            onClick={searchByFilterHandler}
+                                            className="btn-block"
+                                            type="button"
+                                        >
+                                            Search
+                                        </Button>
+                                    </Row>
                                 </ListGroup.Item>
                             </ListGroup>
                         </div>

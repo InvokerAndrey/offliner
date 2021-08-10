@@ -98,7 +98,7 @@ function PhoneScreen({ match, history }) {
                                                                     {x + 1}
                                                                 </option>
                                                             ))
-                                                        }    
+                                                        }
                                                     </Form.Control>
                                                 </Col>
                                             </Row>
@@ -106,13 +106,15 @@ function PhoneScreen({ match, history }) {
                                     )}
 
                                     <ListGroup.Item>
-                                        <Button 
-                                            onClick={addToCartHandler}
-                                            className="btn-block"
-                                            type="button"
-                                            disabled={phone.countInStock === 0}>
-                                                Add to Cart
-                                        </Button>
+                                        <Row>
+                                            <Button 
+                                                onClick={addToCartHandler}
+                                                className="btn-block"
+                                                type="button"
+                                                disabled={phone.countInStock === 0}>
+                                                    Add to Cart
+                                            </Button>
+                                        </Row>
                                     </ListGroup.Item>
                                 </ListGroup>
                             </Card>

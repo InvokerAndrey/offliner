@@ -31,6 +31,7 @@ function PhonesScreen() {
                     <Filter />
                 </Col>
                 <Col md={9}>
+                    <h2>Phones</h2>
                     {loading ? <Loader />
                         : error ? <Message variant='danger'>{error}</Message>
                             : phones.length === 0 ? <Message variant='info'>Couldn't find any</Message>
