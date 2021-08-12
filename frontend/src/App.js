@@ -16,6 +16,9 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import OrderScreen from './screens/OrderScreen'
 import UserListScreen from './screens/UserListScreen'
 import UserEditScreen from './screens/UserEditScreen'
+import PhoneListScreen from './screens/PhoneListScreen'
+import PhoneEditScreen from './screens/PhoneEditScreen'
+
 
 
 function App() {
@@ -37,7 +40,9 @@ function App() {
             <Route path="/cart/:id?" component={CartScreen} />  {/* ? means id is not nessesary */}
 
             <Route path="/admin/userlist" component={UserListScreen} />
+            <Route path="/admin/phonelist" component={PhoneListScreen} />
             <Route path="/admin/user/:id/edit" component={UserEditScreen} />
+            <Route path="/admin/phone/:id/edit" component={PhoneEditScreen} />
           </Container>
         </main>
       <Footer />

@@ -8,6 +8,10 @@ from collections import defaultdict
 from shop.models import Phone
 from shop.serializers import PhoneSerializer
 
+from decimal import Decimal
+
+from django.core.exceptions import ValidationError
+
 
 @api_view(['GET'])
 def get_phones(request):
@@ -21,6 +25,83 @@ def get_phone(request, pk):
     phone = Phone.objects.get(id=pk)
     serializer = PhoneSerializer(phone, many=False)
     return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_phone(request, pk):
+    phone = Phone.objects.get(id=pk)
+    phone.delete()
+    return Response('Phone deteled')
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def create_phone(request):
+    phone = Phone.objects.create(
+        user=request.user,
+        name='Sample name',
+        price=0,
+        brand='Sample brand',
+        countInStock=0,
+        category='Sample category',
+        description='',
+        year=2021,
+        operatingSystem='',
+        screenSize=0,
+        screenResolution='0x0',
+        screenTechnology='',
+        platform='',
+        RAM=0,
+        flashMemory=0,
+        camera=0,
+        cameraAmount=0,
+        battery=0,
+    )
+
+    serializer = PhoneSerializer(phone, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def update_phone(request, pk):
+    phone = Phone.objects.get(id=pk)
+    data = request.data
+
+    phone.name = data['name']
+    phone.price = data['price']
+    phone.brand = data['brand']
+    phone.countInStock = 12
+    phone.category = data['category']
+    phone.description = data['description']
+    phone.year = data['year']
+    phone.operatingSystem = data['operatingSystem']
+    phone.screenSize = float(data['screenSize'])
+    phone.screenResolution = data['screenResolution']
+    phone.screenTechnology = data['screenTechnology']
+    phone.platform = data['platform']
+    phone.RAM = float(data['RAM'])
+    phone.flashMemory = float(data['flashMemory'])
+    phone.camera = data['camera']
+    phone.cameraAmount = data['cameraAmount']
+    phone.battery = data['battery']
+
+    phone.save()
+
+    serializer = PhoneSerializer(phone, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def upload_image(request):
+    data = request.data
+    phone_id = data['phone_id']
+    phone = Phone.objects.get(id=phone_id)
+
+    phone.image = request.FILES.get('image')
+    phone.save()
+    return Response('Image was uploaded')
 
 
 @api_view(['GET'])

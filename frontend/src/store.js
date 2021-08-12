@@ -9,6 +9,9 @@ import {
     phoneDetailsReducer,
     phoneFilterValuesReducer,
     phoneFilterListReducer,
+    phoneDeleteReducer,
+    phoneCreateReducer,
+    phoneUpdateReducer,
 } from './reducers/phoneReducers'
 
 import {
@@ -34,6 +37,9 @@ const reducer = combineReducers({
     phoneDetails: phoneDetailsReducer,
     phoneFilterValues: phoneFilterValuesReducer,
     phoneFilterList: phoneFilterListReducer,
+    phoneDelete: phoneDeleteReducer,
+    phoneCreate: phoneCreateReducer,
+    phoneUpdate: phoneUpdateReducer,
 
     cart: cartReducer,
 
