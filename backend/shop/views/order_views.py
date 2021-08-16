@@ -97,3 +97,24 @@ def update_order_to_paid(request, pk):
     order.save()
 
     return Response('Order was paid')
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def get_orders(request):
+    orders = Order.objects.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def update_order_to_delivered(request, pk):
+    order = Order.objects.get(id=pk)
+
+    order.isDelivered = True
+    order.deliveredAt = datetime.datetime.now()
+
+    order.save()
+
+    return Response('Order was delivered')
