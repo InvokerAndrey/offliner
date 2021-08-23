@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import Rating from './Rating'
 
 
-function phone({ phone }) {
+function Phone({ phone }) {
     return (
         <Card className="my-3 p-3 rounded">
             <Link to={`/phone/${phone.id}`}>
@@ -32,4 +32,4 @@ function phone({ phone }) {
     )
 }
 
-export default phone
+export default Phone

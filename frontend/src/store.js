@@ -12,6 +12,7 @@ import {
     phoneDeleteReducer,
     phoneCreateReducer,
     phoneUpdateReducer,
+    phoneReviewCreateReducer,
 } from './reducers/phoneReducers'
 
 import {
@@ -33,6 +34,10 @@ import {
     orderDeliverReducer,
 } from './reducers/orderReducers'
 
+import { 
+    newsListReducer,
+} from './reducers/newsReducers'
+
 
 const reducer = combineReducers({
     phoneList: phoneListReducer,
@@ -42,6 +47,7 @@ const reducer = combineReducers({
     phoneDelete: phoneDeleteReducer,
     phoneCreate: phoneCreateReducer,
     phoneUpdate: phoneUpdateReducer,
+    phoneReviewCreate: phoneReviewCreateReducer,
 
     cart: cartReducer,
 
@@ -59,6 +65,8 @@ const reducer = combineReducers({
     orderListMy: orderListMyReducer,
     orderList: orderListReducer,
     orderDeliver: orderDeliverReducer,
+
+    newsList: newsListReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?

@@ -30,7 +30,7 @@ function Header() {
                         <Nav className="mr-auto">
 
                             <LinkContainer to="/phones">
-                                <Nav.Link >Phones</Nav.Link>
+                                <Nav.Link>Phones</Nav.Link>
                             </LinkContainer>
 
                             <LinkContainer to="/news">
@@ -38,7 +38,7 @@ function Header() {
                             </LinkContainer>
 
                             <LinkContainer to="/cart">
-                                <Nav.Link><i className="fa fa-shopping-cart"></i>Cart</Nav.Link>
+                                <Nav.Link><i className="fas fa-shopping-cart"></i>Cart</Nav.Link>
                             </LinkContainer>
                             
                             {userInfo ? (

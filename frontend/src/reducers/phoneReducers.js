@@ -6,6 +6,7 @@ import {
     PHONE_DELETE_REQUEST, PHONE_DELETE_SUCCESS, PHONE_DELETE_FAIL,
     PHONE_CREATE_REQUEST, PHONE_CREATE_SUCCESS, PHONE_CREATE_FAIL, PHONE_CREATE_RESET,
     PHONE_UPDATE_REQUEST, PHONE_UPDATE_SUCCESS, PHONE_UPDATE_FAIL, PHONE_UPDATE_RESET,
+    PHONE_CREATE_REVIEW_REQUEST, PHONE_CREATE_REVIEW_SUCCESS, PHONE_CREATE_REVIEW_FAIL, PHONE_CREATE_REVIEW_RESET,
 } from '../constants/phoneConstants'
 
 
@@ -26,7 +27,7 @@ export const phoneListReducer = (state = {phones: []}, action) => {
 }
 
 
-export const phoneDetailsReducer = (state = {phone: {reviews: []}}, action) => {
+export const phoneDetailsReducer = (state = { phone:{ reviews:[] } }, action) => {
     switch(action.type) {
         case PHONE_DETAILS_REQUEST:
             return {loading: true, ...state};
@@ -160,6 +161,26 @@ export const phoneUpdateReducer = (state = {phone: {}}, action) => {
 
         case PHONE_UPDATE_RESET:
             return {phone: {}}
+        
+        default:
+            return state
+    }
+}
+
+
+export const phoneReviewCreateReducer = (state = {}, action) => {
+    switch(action.type) {
+        case PHONE_CREATE_REVIEW_REQUEST:
+            return {loading: true};
+
+        case PHONE_CREATE_REVIEW_SUCCESS:
+            return {loading: false, success: true}
+
+        case PHONE_CREATE_REVIEW_FAIL:
+            return {loading: false, error: action.payload}
+
+        case PHONE_CREATE_REVIEW_RESET:
+            return {}
         
         default:
             return state

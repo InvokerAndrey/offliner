@@ -23,7 +23,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/shop/phones/', include('shop.urls.phone_urls')),
     path('api/shop/users/', include('shop.urls.user_urls')),
-    path('api/shop/orders/', include('shop.urls.order_urls'))
+    path('api/shop/orders/', include('shop.urls.order_urls')),
+
+    path('api/news/', include('news.urls')),
 ]
 
 

@@ -19,6 +19,7 @@ import UserEditScreen from './screens/UserEditScreen'
 import PhoneListScreen from './screens/PhoneListScreen'
 import PhoneEditScreen from './screens/PhoneEditScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import NewsScreen from './screens/NewsScreen'
 
 
 
@@ -33,6 +34,7 @@ function App() {
             <Route path="/register" component={RegisterScreen} />
             <Route path="/profile" component={ProfileScreen} />
             <Route path="/phones" component={PhonesScreen} />
+            <Route path="/news" component={NewsScreen} />
             <Route path="/shipping" component={ShippingScreen} />
             <Route path="/payment" component={PaymentScreen} />
             <Route path="/placeorder" component={PlaceOrderScreen} />

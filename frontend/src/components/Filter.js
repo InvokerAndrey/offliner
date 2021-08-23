@@ -38,9 +38,6 @@ function Filter() {
     }, [dispatch])
 
     const searchByFilterHandler = () => {
-        console.log('MIN:', minPrice)
-        console.log('type:', typeof minPrice)
-        console.log('MAX:', maxPrice)
         dispatch(searchByFilter(
             minPrice, maxPrice, category, year, brand, operatingSystem, screenSize, screenResolution,
             screenTechnology, platform, RAM, flashMemory, camera, cameraAmount, battery

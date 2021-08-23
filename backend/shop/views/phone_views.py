@@ -5,7 +5,7 @@ from rest_framework import status
 
 from collections import defaultdict
 
-from shop.models import Phone
+from shop.models import Phone, Review
 from shop.serializers import PhoneSerializer
 
 from decimal import Decimal
@@ -167,3 +167,42 @@ def get_filtered_phones(request):
 
     serializer = PhoneSerializer(filtered_phones, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_phone_review(request, pk):
+    user = request.user
+    data = request.data
+    phone = Phone.objects.get(id=pk)
+
+    # Review already exists
+    already_exists = phone.review_set.filter(user=user).exists()
+
+    if already_exists:
+        return Response({'details': 'Product already reviewed'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # No rating or 0
+    elif data['rating'] == 0:
+        return Response({'details': 'Select the rating'})
+
+    # Create review
+    else:
+        review = Review.objects.create(
+            user=user,
+            phone=phone,
+            name=user.first_name,
+            rating=data['rating'],
+            comment=data['comment']
+        )
+        reviews = phone.review_set.all()
+        phone.numReviews = len(reviews)
+
+        total_rating = 0
+        for review in reviews:
+            total_rating += review.rating
+        
+        phone.rating = total_rating / len(reviews)
+        phone.save()
+
+        return Response({'details': 'Review added'})

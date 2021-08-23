@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'shop.apps.ShopConfig',
+    'news.apps.NewsConfig',
 ]
 
 REST_FRAMEWORK = {

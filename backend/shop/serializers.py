@@ -32,7 +32,20 @@ class UserSerializerWithToken(UserSerializer):
         fields = ['id', 'username', 'email', 'isAdmin', 'name', 'token']
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'
+
+
 class PhoneSerializer(serializers.ModelSerializer):
+    reviews = serializers.SerializerMethodField(read_only=True)
+
+    def get_reviews(self, obj):
+        reviews = obj.review_set.all()
+        serializer = ReviewSerializer(reviews, many=True)
+        return serializer.data
+
     class Meta:
         model = Phone
         fields = '__all__'

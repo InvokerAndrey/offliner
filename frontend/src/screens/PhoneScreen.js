@@ -1,30 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Row, Col, Image, Button, Card, ListGroup, Form, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom'
 
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listPhoneDetails } from '../actions/phoneActions'
+import { listPhoneDetails, createReview } from '../actions/phoneActions'
+import { PHONE_CREATE_REVIEW_RESET } from '../constants/phoneConstants'
 
 
 function PhoneScreen({ match, history }) {
 
     const [quantity, setQuantity] = useState(1)
+    const [rating, setRating] = useState(0)
+    const [comment, setComment] = useState('')
 
     const dispatch = useDispatch()
 
     const phoneDetails = useSelector(state => state.phoneDetails)
     const { loading: loadingPhone, error: errorPhone, phone } = phoneDetails
 
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
+    const phoneReviewCreate = useSelector(state => state.phoneReviewCreate)
+    const { loading: loadingReview, error: errorReview, success: successReview } = phoneReviewCreate
+
     useEffect(() => {
+
+        if (successReview) {
+            setRating(0)
+            setComment('')
+            dispatch({
+                type: PHONE_CREATE_REVIEW_RESET
+            })
+        }
 
         dispatch(listPhoneDetails(match.params.id))
 
-    }, [dispatch, match])
+    }, [dispatch, match, successReview])
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?quantity=${quantity}`)
+    }
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+        dispatch(createReview(match.params.id, {
+            rating,
+            comment,
+        }))
     }
 
     return (
@@ -50,7 +76,7 @@ function PhoneScreen({ match, history }) {
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
-                                    <Rating value={phone.rating} reviews={phone.reviews} color={'#fc0303'} />
+                                    <Rating value={phone.rating} reviews={phone.reviews.length} color={'#fc0303'} />
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
@@ -178,6 +204,73 @@ function PhoneScreen({ match, history }) {
                                     </tr>
                                 </tbody>
                             </Table>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6}>
+                            <h4>Reviews</h4>
+                            {phone.reviews.length === 0 && <Message variant='info'>No reviews</Message>}
+
+                            <ListGroup variant='flush'>
+                                <ListGroup.Item>
+                                    <h4>Write a Review</h4>
+                                    {loadingReview && <Loader />}
+                                    {successReview && <Message variant='success'>Review submitted</Message>}
+                                    {errorReview && <Message variant='danger'>{errorReview}</Message>}
+
+                                    {userInfo ? (
+                                        <Form onSubmit={submitHandler}>
+                                            <Form.Group controlId='rating'>
+                                                <Form.Label>Rating</Form.Label>
+                                                <Form.Control
+                                                    as="select"
+                                                    value={rating}
+                                                    onChange={(e) => setRating(e.target.value)}
+                                                >
+                                                    <option value=''></option>
+                                                    <option value='1'>1 - Shit</option>
+                                                    <option value='2'>2 - Iphone</option>
+                                                    <option value='3'>3 - Good</option>
+                                                    <option value='4'>4 - Pretty Well</option>
+                                                    <option value='5'>5 - Android</option>
+                                                </Form.Control>
+                                            </Form.Group>
+                                            <Form.Group controlId='comment'>
+                                                <Form.Label>Review</Form.Label>
+                                                <Form.Control
+                                                    as='textarea'
+                                                    row='5'
+                                                    value={comment}
+                                                    onChange={(e) => setComment(e.target.value)}
+                                                >
+
+                                                </Form.Control>
+                                            </Form.Group>
+
+                                            <Button
+                                                disabled={loadingReview}
+                                                type='submit'
+                                                variant='primary'
+                                                className='my-2'
+                                            >
+                                                Submit
+                                            </Button>
+                                        </Form>
+                                    ) : (
+                                        <Message variant='info'><Link to='/login'>Login</Link> to write a review</Message>
+                                    )}
+                                </ListGroup.Item>
+
+                                {phone.reviews.map(review => (
+                                    <ListGroup.Item key={review.id}>
+                                        <strong>{review.name}</strong>
+                                        <Rating value={review.rating} color={'#fc0303'}/>
+                                        <p>{review.createdAt}</p>
+                                        <p>{review.comment}</p>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
                         </Col>
                     </Row>
                 </div>

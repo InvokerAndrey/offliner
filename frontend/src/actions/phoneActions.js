@@ -7,6 +7,7 @@ import {
     PHONE_DELETE_REQUEST, PHONE_DELETE_SUCCESS, PHONE_DELETE_FAIL,
     PHONE_CREATE_REQUEST, PHONE_CREATE_SUCCESS, PHONE_CREATE_FAIL,
     PHONE_UPDATE_REQUEST, PHONE_UPDATE_SUCCESS, PHONE_UPDATE_FAIL,
+    PHONE_CREATE_REVIEW_REQUEST, PHONE_CREATE_REVIEW_SUCCESS, PHONE_CREATE_REVIEW_FAIL,
 } from '../constants/phoneConstants'
 
 
@@ -155,6 +156,41 @@ export const updatePhone = (phone) => async (dispatch, getState) => {
     } catch(error) {
         dispatch({
             type: PHONE_UPDATE_FAIL,
+            payload: error.response && error.response.data.details
+                ? error.response.data.details
+                    : error.message,
+        })
+    }
+}
+
+
+export const createReview = (phoneId, review) => async (dispatch, getState) => {
+    try {
+        dispatch({type: PHONE_CREATE_REVIEW_REQUEST})
+
+        const {
+            userLogin: {userInfo}
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            `/api/shop/phones/${phoneId}/reviews/`,
+            review,
+            config
+        )
+   
+        dispatch({
+            type: PHONE_CREATE_REVIEW_SUCCESS,
+        })
+    } catch(error) {
+        dispatch({
+            type: PHONE_CREATE_REVIEW_FAIL,
             payload: error.response && error.response.data.details
                 ? error.response.data.details
                     : error.message,
