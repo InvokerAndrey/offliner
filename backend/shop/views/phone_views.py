@@ -15,7 +15,11 @@ from django.core.exceptions import ValidationError
 
 @api_view(['GET'])
 def get_phones(request):
-    phones = Phone.objects.all()
+    query = request.query_params.get('keyword') # Has search text
+    print('query:', query)
+    if query is None:
+        query = ''
+    phones = Phone.objects.filter(name__icontains=query)
     serializer = PhoneSerializer(phones, many=True)
     return Response(serializer.data)
 
@@ -132,6 +136,7 @@ def get_filter_values(request):
 
 @api_view(['PUT'])
 def get_filtered_phones(request):
+    
     filter_params = dict(request.data)
 
     print('minPrice:', filter_params['minPrice'])

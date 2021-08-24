@@ -13,8 +13,6 @@ function Filter() {
     const phoneFilterValues = useSelector(state => state.phoneFilterValues)
     const { loading, error, filterValues } = phoneFilterValues
 
-    console.log('filterValues: ', filterValues)
-
     const [minPrice, setMinPrice] = useState('')
     const [maxPrice, setMaxPrice] = useState('')
     const [category, setCategory] = useState('')

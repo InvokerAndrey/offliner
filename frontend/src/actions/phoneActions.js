@@ -11,11 +11,12 @@ import {
 } from '../constants/phoneConstants'
 
 
-export const listPhones = () => async (dispatch) => {
+export const listPhones = (keyword = '') => async (dispatch) => {
     try {
         dispatch({type: PHONE_LIST_REQUEST})
-
-        const {data} = await axios.get(`/api/shop/phones/`)
+        console.log('keyword:', keyword)
+        // keyword looks like this (?keyword=SEARCHTEXT)
+        const {data} = await axios.get(`/api/shop/phones${keyword}`)
 
         dispatch({
             type: PHONE_LIST_SUCCESS,
@@ -224,7 +225,7 @@ export const listFilterValues = () => async (dispatch) => {
 
 export const searchByFilter = (
         minPrice, maxPrice, category, year, brand, operatingSystem, screenSize, screenResolution,
-        screenTechnology, platform, RAM, flashMemory, camera, cameraAmount, battery
+        screenTechnology, platform, RAM, flashMemory, camera, cameraAmount, battery,
     ) => async (dispatch) => {
     try {
         if (Number(minPrice) > Number(maxPrice) || Number(minPrice) < 0 || Number(maxPrice) < 0) {

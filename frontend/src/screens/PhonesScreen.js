@@ -9,20 +9,22 @@ import Filter from '../components/Filter'
 import { listPhones } from '../actions/phoneActions'
 
 
-function PhonesScreen() {
+function PhonesScreen({ history }) {
 
     const dispatch = useDispatch()
 
     const phoneList = useSelector(state => state.phoneList)
     const { loading, error, phones } = phoneList
 
+    let keyword = history.location.search
     
+
     // Triggers any time component loads
     useEffect(() => {
+        
+        dispatch(listPhones(keyword))
 
-        dispatch(listPhones())
-
-    }, [dispatch])
+    }, [dispatch, keyword])
 
     return (
         <div>
