@@ -6,6 +6,7 @@ import Phone from '../components/Phone'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
 import Filter from '../components/Filter'
+import Paginate from '../components/Paginate'
 import { listPhones } from '../actions/phoneActions'
 
 
@@ -14,7 +15,7 @@ function PhonesScreen({ history }) {
     const dispatch = useDispatch()
 
     const phoneList = useSelector(state => state.phoneList)
-    const { loading, error, phones } = phoneList
+    const { loading, error, phones, page, pages } = phoneList
 
     let keyword = history.location.search
     
@@ -37,13 +38,17 @@ function PhonesScreen({ history }) {
                     {loading ? <Loader />
                         : error ? <Message variant='danger'>{error}</Message>
                             : phones.length === 0 ? <Message variant='info'>Couldn't find any</Message>
-                                    : <Row>
-                                        {phones.map(phone => (
-                                              <Col key={phone.id} sm={12} md={6} lg={4} xl={3}>
-                                                  <Phone phone={phone} />
-                                              </Col>
-                                        ))}
-                                      </Row>
+                                    : <div>
+                                        <Row>
+                                            {phones.map(phone => (
+                                                <Col key={phone.id} sm={12} md={6} lg={4} xl={3}>
+                                                    <Phone phone={phone} />
+                                                </Col>
+                                            ))}
+                                        </Row>
+                                        <Paginate page={page} pages={pages} keyword={keyword}/>
+                                      </div>
+                                    
                     }
                 </Col>
             </Row>

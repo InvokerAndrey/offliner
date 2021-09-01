@@ -8,6 +8,8 @@ from shop.models import Phone, Order, OrderItem, ShippingAddress
 
 import datetime
 
+from shop.utils import send_email_for_paid_order
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -95,6 +97,8 @@ def update_order_to_paid(request, pk):
     order.paidAt = datetime.datetime.now()
 
     order.save()
+
+    send_email_for_paid_order(order)
 
     return Response('Order was paid')
 

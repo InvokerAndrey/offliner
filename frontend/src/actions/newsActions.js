@@ -6,11 +6,11 @@ import {
  } from '../constants/newsConstants'
 
 
- export const listNews = (category) => async (dispatch) => {
+ export const listNews = (category, keyword = '') => async (dispatch) => {
     try {
         dispatch({type: NEWS_LIST_REQUEST})
 
-        const {data} = await axios.get(`/api/news/${category}/`)
+        const {data} = await axios.get(`/api/news/${category}${keyword}`)
 
         dispatch({
             type: NEWS_LIST_SUCCESS,

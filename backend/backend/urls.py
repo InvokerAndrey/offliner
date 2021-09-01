@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/shop/orders/', include('shop.urls.order_urls')),
 
     path('api/news/', include('news.urls')),
+
+    path('api/weather/', include('weather.urls')),
 ]
 
 

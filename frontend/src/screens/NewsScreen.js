@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { Row, Col, Form, Button } from 'react-bootstrap'
+import React, {useState} from 'react'
+import { Row, Col, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import News from '../components/News'
@@ -8,22 +8,14 @@ import Loader from '../components/Loader'
 import Message from '../components/Message'
 
 
-function NewsScreen({ history }) {
+function NewsScreen() {
 
     const dispatch = useDispatch()
 
     const newsList = useSelector(state => state.newsList)
-    const { loading, error, news } = newsList
+    const { loading, error, news, page, pages } = newsList
 
     const [category, setCategory] = useState('')
-
-    
-    // Triggers any time component loads
-    useEffect(() => {
-
-        
-
-    }, [dispatch])
 
     const getNewsByCategory = () => {
         dispatch(listNews(category))
@@ -58,13 +50,16 @@ function NewsScreen({ history }) {
                 {loading ? <Loader />
                     : error ? <Message variant='danger'>{error}</Message>
                         : news.length === 0 ? <Message variant='info'>Couldn't find any</Message>
-                                : <Row>
-                                    {news.map(newsItem => (
-                                            <Col key={newsItem.datetime} sm={12} md={6} lg={4} xl={3}>
-                                                <News newsItem={newsItem} />
-                                            </Col>
-                                    ))}
+                                : <div>
+                                    <Row>
+                                        {news.map(newsItem => (
+                                                <Col key={newsItem.datetime} sm={12} md={6} lg={4} xl={3}>
+                                                    <News newsItem={newsItem} />
+                                                </Col>
+                                        ))}
                                     </Row>
+                                  </div>
+                                
                 }
             </Col>
         </div>

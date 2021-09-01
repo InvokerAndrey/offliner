@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Phone from '../components/Phone'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import PhoneCarousel from '../components/PhoneCarousel'
 import { listPhones } from '../actions/phoneActions'
 
 
@@ -24,17 +25,7 @@ function HomeScreen() {
 
     return (
         <div>
-            {loading ? <Loader />
-                : error ? <Message variant='danger'>{error}</Message>
-                    : <Row>
-                        {phones.map(phone => (
-                            <Col key={phone.id} sm={12} md={6} lg={4} xl={3}>
-                                <Phone phone={phone} />
-                            </Col>
-                        ))}
-                    </Row>
-            }
-            
+            <PhoneCarousel />
         </div>
     )
 }

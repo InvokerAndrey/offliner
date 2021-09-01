@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'shop.apps.ShopConfig',
     'news.apps.NewsConfig',
+    'weather.apps.WeatherConfig'
 ]
 
 REST_FRAMEWORK = {
@@ -179,3 +180,11 @@ MEDIA_ROOT = 'static/images'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# EMAIL
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')

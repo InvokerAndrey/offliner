@@ -60,5 +60,5 @@ def save_news_images(news):
     # Creating it back
     Path('static/images/news').mkdir(parents=True, exist_ok=True)
     
-    # And downloading images
+    # And asyncly downloading images
     asyncio.run(save_images(news))

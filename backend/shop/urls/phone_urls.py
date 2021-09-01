@@ -5,6 +5,7 @@ from shop.views import phone_views as views
 
 urlpatterns = [
     path('', views.get_phones, name='phones'),
+    path('top/', views.get_top_phones, name='top-phones'),
     path('filter-values/', views.get_filter_values, name='filter-values'),
     path('filter-results/', views.get_filtered_phones, name='filter-results'),
     path('create/', views.create_phone, name='create-phone'),

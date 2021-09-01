@@ -5,16 +5,17 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Paginate from '../components/Paginate'
 import { listPhones, deletePhone, createPhone} from '../actions/phoneActions'
 import { PHONE_CREATE_RESET } from '../constants/phoneConstants'
 
 
-function PhoneListScreen({ history, match }) {
+function PhoneListScreen({ history }) {
 
     const dispatch = useDispatch()
 
     const phoneList = useSelector(state => state.phoneList)
-    const {loading, error, phones} = phoneList
+    const {loading, error, phones, page, pages} = phoneList
 
     const phoneDelete = useSelector(state => state.phoneDelete)
     const {loading: loadingDelete, error: errorDelete, success: successDelete} = phoneDelete
@@ -24,6 +25,8 @@ function PhoneListScreen({ history, match }) {
 
     const userLogin = useSelector(state => state.userLogin)
     const {userInfo} = userLogin
+
+    let keyword = history.location.search
 
     useEffect(() => {
         dispatch({
@@ -37,10 +40,10 @@ function PhoneListScreen({ history, match }) {
         if (successCreate) {
             history.push(`/admin/phone/${createdPhone.id}/edit`)
         } else {
-            dispatch(listPhones())
+            dispatch(listPhones(keyword))
         }
         
-    }, [dispatch, history, userInfo, successDelete, successCreate, createdPhone])
+    }, [dispatch, history, userInfo, successDelete, successCreate, createdPhone, keyword])
 
     const deleteHandler = (id, name) => {
         if(window.confirm(`Are you sure you want to delete ${name}?`)){
@@ -76,52 +79,55 @@ function PhoneListScreen({ history, match }) {
             ) : error ? (
                 <Message variant='danger'>{error}</Message>
             ) : (
-                <Table bordered hover responsive className='table-sm' >
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>NAME</th>
-                            <th>BRAND</th>
-                            <th>PRICE</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {phones.map(phone => (
-                            <tr key={phone.id}>
-                                <td>{phone.id}</td>
-                                <td>
-                                    <Row>
-                                        <Col md={1}>
-                                            <Image src={phone.image} alt={phone.name} fluid rounded/>
-                                        </Col>
-                                        <Col>
-                                            {phone.name}
-                                        </Col>
-                                    </Row>
-                                </td>
-                                <td>{phone.brand}</td>
-                                <td>${phone.price}</td>
-                                <td>
-                                    <LinkContainer to={`/admin/phone/${phone.id}/edit`}>
-                                        <Button  variant="light" className='btn-sm'>
-                                            <i className="fas fa-edit"></i>
-                                        </Button>
-                                    </LinkContainer>
-
-                                    <Button  
-                                        variant="light"
-                                        className='btn-sm'
-                                        style={{color: 'red'}}
-                                        onClick={() => deleteHandler(phone.id, phone.name)}
-                                    >
-                                        <i className="fas fa-trash"></i>
-                                    </Button>
-                                </td>
+                <div>
+                    <Table bordered hover responsive className='table-sm' >
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>BRAND</th>
+                                <th>PRICE</th>
+                                <th></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {phones.map(phone => (
+                                <tr key={phone.id}>
+                                    <td>{phone.id}</td>
+                                    <td>
+                                        <Row>
+                                            <Col md={1}>
+                                                <Image src={phone.image} alt={phone.name} fluid rounded/>
+                                            </Col>
+                                            <Col>
+                                                {phone.name}
+                                            </Col>
+                                        </Row>
+                                    </td>
+                                    <td>{phone.brand}</td>
+                                    <td>${phone.price}</td>
+                                    <td>
+                                        <LinkContainer to={`/admin/phone/${phone.id}/edit`}>
+                                            <Button  variant="light" className='btn-sm'>
+                                                <i className="fas fa-edit"></i>
+                                            </Button>
+                                        </LinkContainer>
+
+                                        <Button  
+                                            variant="light"
+                                            className='btn-sm'
+                                            style={{color: 'red'}}
+                                            onClick={() => deleteHandler(phone.id, phone.name)}
+                                        >
+                                            <i className="fas fa-trash"></i>
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                    <Paginate page={page} pages={pages} isAdmin={true} />
+                </div>
             )}
         </div>
     )

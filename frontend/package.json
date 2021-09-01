@@ -19,6 +19,7 @@
     "redux": "^4.1.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "use-position": "0.0.8",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

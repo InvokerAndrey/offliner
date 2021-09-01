@@ -11,7 +11,7 @@ function SearchBox() {
     const submitHandler = (e) => {
         e.preventDefault()
         if (keyword) {
-            history.push(`/phones/?keyword=${keyword}`)
+            history.push(`/phones/?keyword=${keyword}&page=1`)
         } else {
             history.push(history.location.pathname)
         }

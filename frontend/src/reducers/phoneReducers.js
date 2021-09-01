@@ -7,6 +7,7 @@ import {
     PHONE_CREATE_REQUEST, PHONE_CREATE_SUCCESS, PHONE_CREATE_FAIL, PHONE_CREATE_RESET,
     PHONE_UPDATE_REQUEST, PHONE_UPDATE_SUCCESS, PHONE_UPDATE_FAIL, PHONE_UPDATE_RESET,
     PHONE_CREATE_REVIEW_REQUEST, PHONE_CREATE_REVIEW_SUCCESS, PHONE_CREATE_REVIEW_FAIL, PHONE_CREATE_REVIEW_RESET,
+    PHONE_TOP_REQUEST, PHONE_TOP_SUCCESS, PHONE_TOP_FAIL,
 } from '../constants/phoneConstants'
 
 
@@ -16,7 +17,12 @@ export const phoneListReducer = (state = {phones: []}, action) => {
             return {loading: true, phones: []};
 
         case PHONE_LIST_SUCCESS:
-            return {loading: false, phones: action.payload}
+            return {
+                loading: false,
+                phones: action.payload.phones,
+                page: action.payload.page,
+                pages: action.payload.pages,
+            }
 
         case PHONE_LIST_FAIL:
             return {loading: false, error: action.payload}
@@ -100,7 +106,12 @@ export const phoneFilterListReducer = (state = {phones: []}, action) => {
             return {loading: true, phones: []};
 
         case PHONE_FILTER_LIST_SUCCESS:
-            return {loading: false, phones: action.payload}
+            return {
+                loading: false,
+                phones: action.payload.phones,
+                page: action.payload.page,
+                pages: action.payload.pages,
+            }
 
         case PHONE_FILTER_LIST_FAIL:
             return {loading: false, error: action.payload}
@@ -182,6 +193,23 @@ export const phoneReviewCreateReducer = (state = {}, action) => {
         case PHONE_CREATE_REVIEW_RESET:
             return {}
         
+        default:
+            return state
+    }
+}
+
+
+export const phoneTopRatedReducer = (state = {phones: []}, action) => {
+    switch(action.type) {
+        case PHONE_TOP_REQUEST:
+            return {loading: true, phones: []};
+
+        case PHONE_TOP_SUCCESS:
+            return {loading: false, phones: action.payload}
+
+        case PHONE_TOP_FAIL:
+            return {loading: false, error: action.payload}
+
         default:
             return state
     }

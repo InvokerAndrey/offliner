@@ -8,13 +8,13 @@ import {
     PHONE_CREATE_REQUEST, PHONE_CREATE_SUCCESS, PHONE_CREATE_FAIL,
     PHONE_UPDATE_REQUEST, PHONE_UPDATE_SUCCESS, PHONE_UPDATE_FAIL,
     PHONE_CREATE_REVIEW_REQUEST, PHONE_CREATE_REVIEW_SUCCESS, PHONE_CREATE_REVIEW_FAIL,
+    PHONE_TOP_REQUEST, PHONE_TOP_SUCCESS, PHONE_TOP_FAIL,
 } from '../constants/phoneConstants'
 
 
 export const listPhones = (keyword = '') => async (dispatch) => {
     try {
         dispatch({type: PHONE_LIST_REQUEST})
-        console.log('keyword:', keyword)
         // keyword looks like this (?keyword=SEARCHTEXT)
         const {data} = await axios.get(`/api/shop/phones${keyword}`)
 
@@ -25,6 +25,27 @@ export const listPhones = (keyword = '') => async (dispatch) => {
     } catch(error) {
         dispatch({
             type: PHONE_LIST_FAIL,
+            payload: error.response && error.response.data.details
+                ? error.response.data.details
+                    : error.message,
+        })
+    }
+}
+
+
+export const listTopPhones = () => async (dispatch) => {
+    try {
+        dispatch({type: PHONE_TOP_REQUEST})
+
+        const {data} = await axios.get(`/api/shop/phones/top/`)
+
+        dispatch({
+            type: PHONE_TOP_SUCCESS,
+            payload: data,
+        })
+    } catch(error) {
+        dispatch({
+            type: PHONE_TOP_FAIL,
             payload: error.response && error.response.data.details
                 ? error.response.data.details
                     : error.message,

@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from collections import defaultdict
 
@@ -16,10 +17,37 @@ from django.core.exceptions import ValidationError
 @api_view(['GET'])
 def get_phones(request):
     query = request.query_params.get('keyword') # Has search text
-    print('query:', query)
     if query is None:
         query = ''
     phones = Phone.objects.filter(name__icontains=query)
+
+    page = request.query_params.get('page')
+    paginator = Paginator(phones, 5)
+
+    try:
+        phones = paginator.page(page)
+    except PageNotAnInteger:
+        phones = paginator.page(1)
+    except EmptyPage:
+        phones = paginator.page(paginator.num_pages)
+
+    if page is None:
+        page = 1
+
+    page = int(page)    
+    
+    serializer = PhoneSerializer(phones, many=True)
+    return Response({
+        'phones': serializer.data,
+        'page': page,
+        'pages': paginator.num_pages,
+        'screen': 'phones'
+    })
+
+
+@api_view(['GET'])
+def get_top_phones(request):
+    phones = Phone.objects.filter(rating__gte=4).order_by('-rating')[:5]
     serializer = PhoneSerializer(phones, many=True)
     return Response(serializer.data)
 
@@ -139,9 +167,6 @@ def get_filtered_phones(request):
     
     filter_params = dict(request.data)
 
-    print('minPrice:', filter_params['minPrice'])
-    print('maxPrice:', filter_params['maxPrice'])
-
     try:
         minPrice = float(filter_params['minPrice'])
     except:
@@ -167,11 +192,28 @@ def get_filtered_phones(request):
         filtered_phones = Phone.objects.filter(price__lte=maxPrice, **filter_params)
     else:
         filtered_phones = Phone.objects.filter(**filter_params)
-    
-    print('Filtered Phones:', filtered_phones)
+
+    page = request.query_params.get('page')
+    paginator = Paginator(filtered_phones, 9999)
+
+    try:
+        filtered_phones = paginator.page(page)
+    except PageNotAnInteger:
+        filtered_phones = paginator.page(1)
+    except EmptyPage:
+        filtered_phones = paginator.page(paginator.num_pages)
+
+    if page is None:
+        page = 1
+
+    page = int(page)
 
     serializer = PhoneSerializer(filtered_phones, many=True)
-    return Response(serializer.data)
+    return Response({
+        'phones': serializer.data,
+        'page': page,
+        'pages': paginator.num_pages,
+    })
 
 
 @api_view(['POST'])

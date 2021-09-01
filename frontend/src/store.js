@@ -13,6 +13,7 @@ import {
     phoneCreateReducer,
     phoneUpdateReducer,
     phoneReviewCreateReducer,
+    phoneTopRatedReducer,
 } from './reducers/phoneReducers'
 
 import {
@@ -38,6 +39,8 @@ import {
     newsListReducer,
 } from './reducers/newsReducers'
 
+import { weatherDisplayReducer } from './reducers/weatherReducers'
+
 
 const reducer = combineReducers({
     phoneList: phoneListReducer,
@@ -48,6 +51,7 @@ const reducer = combineReducers({
     phoneCreate: phoneCreateReducer,
     phoneUpdate: phoneUpdateReducer,
     phoneReviewCreate: phoneReviewCreateReducer,
+    phoneTopRated: phoneTopRatedReducer,
 
     cart: cartReducer,
 
@@ -67,6 +71,8 @@ const reducer = combineReducers({
     orderDeliver: orderDeliverReducer,
 
     newsList: newsListReducer,
+
+    weatherDisplay: weatherDisplayReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ?
