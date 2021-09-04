@@ -26,6 +26,7 @@ function HomeScreen() {
     return (
         <div>
             <PhoneCarousel />
+            <h4 className="text-center my-5">Bugs are not excluded</h4>
         </div>
     )
 }

@@ -11,7 +11,7 @@ from datetime import datetime
 def get_news_by_category(category, period):
     googlenews = GoogleNews(period=period)
     googlenews.get_news(category)
-    news = googlenews.results(sort=True)
+    news = googlenews.results(sort=True)[:20]
     save_news_images(news)
     return news
 
